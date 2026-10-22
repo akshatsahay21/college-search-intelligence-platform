@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+build/
+**/build/
+dist/
+**/dist/
+dist-ssr/
+*.tsbuildinfo
+coverage/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets and local credentials
+secrets/
+credentials/
+*.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Prisma and local databases
+prisma/*.db
+prisma/*.db-journal
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# Uploaded and generated files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Editor and OS files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.sw?
