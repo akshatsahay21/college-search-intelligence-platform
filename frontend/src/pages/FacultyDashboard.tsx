@@ -120,15 +120,15 @@ export default function FacultyDashboard() {
         <img
           src="/campus-banner.jpg"
           alt="University Campus"
-          className="absolute inset-0 w-full h-full object-cover object-[center_25%] filter brightness-70 contrast-110"
+          className="absolute inset-0 w-full h-full object-cover object-[center_35%] filter brightness-95 contrast-105"
         />
-        {/* Multi-layer Deep Scrim for Guaranteed Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-slate-950/35" />
-        <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[1px]" />
+        {/* Ambient Sunlight & Subtle Scrim */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/35 to-black/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/50 via-slate-950/20 to-transparent" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-5">
           {/* Frosted Glass Identity Capsule */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 bg-slate-950/80 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/15 shadow-2xl max-w-3xl">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 bg-slate-950/45 hover:bg-slate-950/55 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20 shadow-2xl max-w-3xl transition-colors">
             <div
               className="relative group cursor-pointer shrink-0"
               onClick={() => setShowEditModal(true)}
