@@ -117,7 +117,19 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Invalid credentials. User not found in MongoDB.' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    let isMatch = false;
+    if (user.password && user.password.startsWith('$2')) {
+      isMatch = await bcrypt.compare(password, user.password);
+    } else {
+      // Graceful fallback if legacy plaintext password, then auto-upgrade to salted Bcrypt hash
+      if (user.password === password) {
+        isMatch = true;
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        await user.save();
+      }
+    }
+
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials. Incorrect password.' });
     }
@@ -316,17 +328,20 @@ export const seedDemoAccounts = async (_req: Request, res: Response) => {
 
     for (const acc of demoAccounts) {
       const exists = await User.findOne({ email: acc.email });
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(acc.password, salt);
       if (!exists) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(acc.password, salt);
         await User.create({
           ...acc,
           password: hashedPassword,
           avatar: '',
         });
       } else {
-        // Update with full fields if previously missing
-        await User.updateOne({ email: acc.email }, { $set: acc });
+        // Update with full fields and ensure password is properly hashed with bcrypt
+        await User.updateOne(
+          { email: acc.email },
+          { $set: { ...acc, password: hashedPassword } }
+        );
       }
     }
 
