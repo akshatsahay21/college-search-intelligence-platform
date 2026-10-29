@@ -1,94 +1,78 @@
-# College Search and Intelligence Platform
+# AI-Powered Intelligent College Search & Knowledge Platform
+**Final-Year BTech CSE Major Project • October 2026**
 
-An AI-powered college knowledge platform that lets administrators upload academic PDFs and lets students search those documents with semantic retrieval and generated answers grounded in the uploaded material.
+A centralized, college-specific search and knowledge platform bringing notes, previous-year question papers (PYQs), syllabus documents, notices, and placement circulars into one unified, searchable system.
 
-## Features
+Combines:
+1. **Core CSE & Information Retrieval (IR)**: Custom Inverted Index, tokenization, stemming, stop-word removal, and BM25 ranking algorithm implemented from scratch.
+2. **Modern AI / Semantic Retrieval**: Dense vector embeddings (`all-MiniLM-L6-v2`), cosine similarity, hybrid rank fusion, and grounded RAG synthesis via Meta's Llama 3 (Groq API).
+3. **Database & Cloud Storage**: MongoDB via Mongoose and ImageKit.io CDN for fast, distributed document delivery.
+4. **DevOps & Infrastructure**: Docker containerization, Docker Compose, role-based security.
 
-- Student and admin authentication with JWT-based access control
-- PDF upload and document deduplication
-- PDF text extraction, chunking, and embedding generation
-- Keyword and semantic document search
-- Groq-powered answers and quiz generation
-- Admin analytics and document management
-- PostgreSQL storage with Prisma and pgvector support
+---
 
-## Architecture
+## 🏛️ Roles & Portals (RBAC)
 
-- `frontend/`: React, Vite, TypeScript, Tailwind CSS, React Router, Framer Motion, and Lucide React
-- `backend/`: Node.js, Express, TypeScript, Prisma, PostgreSQL, JWT, Multer, and Groq SDK
-- `ai-service/`: FastAPI service using `pdfplumber` and `sentence-transformers` for PDF processing and embeddings
-- `docker-compose.yml`: Local PostgreSQL with the pgvector image
+The platform supports 3 distinct roles with dedicated portals:
 
-The frontend calls the backend. The backend handles authentication, persistence, uploads, search, and Groq requests. The backend calls the AI service for document extraction and query embeddings.
+| Role | Portal & Capabilities |
+| :--- | :--- |
+| **🎓 STUDENT** | Sub-second hybrid search, grounded AI answers with page-level citations, personal bookmarks/library, search history, and AI quiz retention generator. |
+| **👨‍🏫 FACULTY** | Upload lecture notes, PYQs, and syllabi with departmental tags; ImageKit CDN processing; monitor student engagement and view/download telemetry. |
+| **⚡ SUPER ADMIN** | Platform-wide analytics, user management (role assignment/promotion), document lifecycle control, and 1-click Inverted Index rebuilding. |
 
-## Environment Variables
+---
 
-Keep real environment files local and never commit them.
+## 📐 Hybrid Ranking Formula (Module 4)
 
-1. Copy `.env.example` to `.env` and set the Docker database password.
-2. Copy `backend/.env.example` to `backend/.env`.
-3. Set `DATABASE_URL`, `GROQ_API_KEY`, `JWT_SECRET`, and `PORT` in `backend/.env`.
+$$S_{\text{final}} = 0.45 \cdot S_{\text{BM25}} + 0.35 \cdot S_{\text{Semantic}} + 0.10 \cdot S_{\text{Popularity}} + 0.10 \cdot S_{\text{Freshness}}$$
 
-The backend requires a PostgreSQL `DATABASE_URL`. `GROQ_API_KEY` is required for generated answers and quizzes. `JWT_SECRET` must be a strong, private value used to sign authentication tokens.
+*Weights are fully tunable via the UI sliders during live demonstrations.*
 
-## Local Setup
+---
 
-### 1. Start PostgreSQL
+## 🚀 Quick Start Guide
 
+### 1. Database (MongoDB)
+Start MongoDB via Docker or a local instance:
 ```bash
 docker compose up -d
 ```
+*(Default URI: `mongodb://127.0.0.1:27017/college_intelligence`)*
 
-### 2. Install and prepare the backend
-
+### 2. Backend Setup
 ```bash
 cd backend
-npm ci
-npx prisma generate
-npx prisma db push
+npm install
+# Seed initial demo accounts (Student, Faculty, Admin) and sample indexed documents:
+npm run seed
 npm run dev
 ```
 
-The backend listens on the port configured by `PORT`.
+### 3. AI Microservice (Optional for Vector Embeddings)
+```bash
+cd ai-service
+pip install fastapi uvicorn sentence-transformers pdfplumber
+uvicorn app.main:app --port 8000 --reload
+```
+*(Note: If the Python AI service is offline, the backend automatically uses its built-in fallback embedder so search never crashes).*
 
-### 3. Start the AI service
-
-Create or activate a Python virtual environment for `ai-service`, install the dependencies required by the imports in `ai-service/app`, and start the FastAPI application with Uvicorn from the project environment. The embedding model downloads the first time it is used.
-
-The backend expects the AI service at `http://localhost:8000`.
-
-### 4. Start the frontend
-
+### 4. Frontend Setup
 ```bash
 cd frontend
-npm ci
+npm install
 npm run dev
 ```
+Open **`http://localhost:5173`** in your browser.
 
-Open the local URL printed by Vite.
+---
 
-## Development Workflow
+## 🔑 Pre-seeded Demo Accounts
 
-Run each service in its own terminal during local development. Keep generated files, local databases, uploads, virtual environments, and credentials out of Git. Update the relevant documentation when configuration or service behavior changes.
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| **Student** | `student@college.edu` | `password123` |
+| **Faculty** | `faculty@college.edu` | `password123` |
+| **Admin** | `admin@college.edu` | `password123` |
 
-## Team Git Workflow
-
-Use `main` as the shared integration branch and create one feature branch per task.
-
-1. Pull the latest `main`.
-2. Create a branch named `feature/<feature-name>`.
-3. Make and test your changes.
-4. Commit the changes with a clear message.
-5. Push the feature branch.
-6. Open a Pull Request against `main`.
-7. Request review and address feedback.
-8. Merge into `main` after approval and passing checks.
-
-Do not commit `.env` files, API keys, passwords, tokens, private keys, or generated dependency directories.
-
-## Project Documentation
-
-- [Design](DESIGN.md)
-- [Project details](project_details.md)
-- [Project roadmap](project_roadmap.md)
-- [Presentation](presentation.pdf)
+*(You can also use the **Quick Demo Switcher** pills in the top navbar to instantly test any role with one click).*

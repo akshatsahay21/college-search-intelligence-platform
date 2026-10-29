@@ -1,7 +1,56 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #1E3A8A;
-  --color-secondary: #475569;
-  --color-accent: #D4AF37;
+  --color-brand-primary: #4f46e5;
+  --color-brand-dark: #1e1b4b;
+  --color-brand-accent: #f59e0b;
+  --color-brand-cyan: #06b6d4;
+  --color-brand-violet: #8b5cf6;
+  --color-brand-surface: #ffffff;
+}
+
+@layer base {
+  body {
+    background-color: #f8fafc;
+    color: #0f172a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom Glassmorphism & GenZ Effects */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(79, 70, 229, 0.15);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.glow-gradient {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%);
+}
+
+.badge-genz {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }

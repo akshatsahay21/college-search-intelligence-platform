@@ -1,79 +1,121 @@
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import AdminUpload from './pages/AdminUpload';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
 import StudentSearch from './pages/StudentSearch';
+import StudentDashboard from './pages/StudentDashboard';
+import FacultyDashboard from './pages/FacultyDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminUpload from './pages/AdminUpload';
+import QuizGenerator from './pages/QuizGenerator';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import StudentDashboard from './pages/StudentDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import QuizGenerator from './pages/QuizGenerator';
-import Home from './pages/Home';
+import { getStoredUser } from './services/api';
 
-function Navbar() {
-  const navigate = useNavigate();
-  const token = sessionStorage.getItem('token');
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+// Protected Route wrapper
+function ProtectedRoute({
+  children,
+  allowedRoles,
+}: {
+  children: React.ReactNode;
+  allowedRoles?: string[];
+}) {
+  const user = getStoredUser();
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/search" replace />;
+  }
+  return <>{children}</>;
+}
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
-    navigate('/login');
-  };
+function MainLayout() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   return (
-    <nav className="bg-primary text-white p-4 shadow-md">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold flex items-center gap-2">
-          <span className="text-accent">◆</span> College Intelligence
-        </Link>
-        <div className="space-x-6 font-medium flex items-center">
-          {token ? (
-            <>
-              {user.role === 'ADMIN' ? (
-                <>
-                  <Link to="/admin" className="hover:text-accent transition-colors">Admin Dashboard</Link>
-                  <Link to="/admin/upload" className="hover:text-accent transition-colors">Upload</Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/dashboard" className="hover:text-accent transition-colors">Dashboard</Link>
-                  <Link to="/search" className="hover:text-accent transition-colors">AI Search</Link>
-                  <Link to="/quiz" className="hover:text-accent transition-colors">Quiz</Link>
-                </>
-              )}
-              <button onClick={handleLogout} className="text-red-300 hover:text-red-400 font-bold ml-4 border border-red-400 px-3 py-1 rounded transition-colors">Logout</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="hover:text-accent transition-colors">Login</Link>
-              <Link to="/register" className="bg-accent text-primary px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors">Register</Link>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
+    <div
+      className={`min-h-screen flex flex-col bg-slate-50 selection:bg-indigo-500 selection:text-white ${
+        isLoginPage ? 'h-screen max-h-screen overflow-hidden' : ''
+      }`}
+    >
+      {!isAuthPage && <Navbar />}
+      <main
+        className={`flex-1 ${
+          isAuthPage
+            ? 'w-full h-full p-0 m-0 overflow-hidden'
+            : 'pb-16'
+        }`}
+      >
+        <Routes>
+          {/* Default URL opens Login Page directly */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<StudentSearch />} />
+
+          {/* Student Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['STUDENT', 'ADMIN']}>
+                <StudentDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/quiz" element={<QuizGenerator />} />
+
+          {/* Faculty Protected Routes */}
+          <Route
+            path="/faculty"
+            element={
+              <ProtectedRoute allowedRoles={['FACULTY', 'ADMIN']}>
+                <FacultyDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/faculty/upload"
+            element={
+              <ProtectedRoute allowedRoles={['FACULTY', 'ADMIN']}>
+                <AdminUpload />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Admin Protected Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/upload"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN', 'FACULTY']}>
+                <AdminUpload />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-slate-50">
-        <Navbar />
-        <main className="p-4">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<StudentDashboard />} />
-            <Route path="/search" element={<StudentSearch />} />
-            <Route path="/quiz" element={<QuizGenerator />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/upload" element={<AdminUpload />} />
-            <Route path="/" element={<Home />} /> 
-          </Routes>
-        </main>
-      </div>
+      <MainLayout />
     </Router>
   );
 }
-
-export default App;

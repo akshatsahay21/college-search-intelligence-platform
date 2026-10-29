@@ -1,8 +1,15 @@
 import { Router } from 'express';
-import { getDashboard } from '../controllers/userController';
-import { protect } from '../middlewares/authMiddleware';
+import {
+  getDashboard,
+  toggleSaveDocument,
+  clearSearchHistory,
+} from '../controllers/userController';
+import { verifyToken } from '../middleware/authMiddleware';
 
 const router = Router();
-router.get('/dashboard', protect as any, getDashboard as any);
+
+router.get('/dashboard', verifyToken, getDashboard);
+router.post('/save', verifyToken, toggleSaveDocument);
+router.delete('/history', verifyToken, clearSearchHistory);
 
 export default router;

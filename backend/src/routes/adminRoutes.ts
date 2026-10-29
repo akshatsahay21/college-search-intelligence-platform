@@ -1,10 +1,17 @@
 import { Router } from 'express';
-import { getAnalytics, getAllUsers, getAllDocuments } from '../controllers/adminController';
-import { protect } from '../middlewares/authMiddleware';
+import {
+  getAnalytics,
+  getAllUsers,
+  updateUserRole,
+  triggerReindex,
+} from '../controllers/adminController';
+import { verifyToken, adminOnly } from '../middleware/authMiddleware';
 
 const router = Router();
-router.get('/analytics', protect as any, getAnalytics as any);
-router.get('/users', protect as any, getAllUsers as any);
-router.get('/documents', protect as any, getAllDocuments as any);
+
+router.get('/analytics', verifyToken, adminOnly, getAnalytics);
+router.get('/users', verifyToken, adminOnly, getAllUsers);
+router.put('/user-role', verifyToken, adminOnly, updateUserRole);
+router.post('/reindex', verifyToken, adminOnly, triggerReindex);
 
 export default router;
