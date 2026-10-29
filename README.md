@@ -33,6 +33,7 @@
 * [💻 Setup & Installation Guide](#-setup--installation-guide)
 * [📂 Project Directory Structure](#-project-directory-structure)
 * [👥 Project Team & Contributors](#-project-team--contributors)
+* [📘 Master System Documentation](#-master-system-documentation)
 * [📖 Academic Thesis & Publications](#-academic-thesis--publications)
 
 ---
@@ -488,12 +489,20 @@ This platform is engineered as the **Final-Year Major Project (B.Tech CSE 2025�
 
 ---
 
+## 📘 Master System Documentation
+
+For an exhaustive, production-grade technical specification that covers the complete engineering design without university thesis formal certificates (1,200+ lines covering architecture, first-principles IR, BM25 formulations, Groq RAG pipelines, ImageKit CDN asset management, Mongoose schemas, REST APIs, and Docker/Nginx deployment):
+👉 **[`PROJECT_DOCUMENTATION.md`](PROJECT_DOCUMENTATION.md)**
+
+---
+
 ## 📖 Academic Thesis & Publications
 
 This repository forms the complete technical submission for the **Bachelor of Technology (BTech) in Computer Science & Engineering** at **G H Raisoni University Saikheda (Academic Year 2025–2026)**.
 
 For the exhaustive formal academic report—including comprehensive literature reviews, mathematical proofs of BM25 term saturation, DFD Level 0/1/2 diagrams, empirical IR benchmarking (NDCG@10 = 0.924), and 25+ academic citations—please review:
-* 📄 **Markdown Source:** [`THESIS_PROJECT_REPORT.md`](THESIS_PROJECT_REPORT.md)
+* 📘 **Master Technical Specification (Non-Thesis 1200+ Lines):** [`PROJECT_DOCUMENTATION.md`](PROJECT_DOCUMENTATION.md) *(Complete operational reference covering architecture, IR formulation, Groq RAG, ImageKit CDN, schemas, REST APIs, and workflows)*
+* 📄 **Formal Thesis Markdown Source:** [`THESIS_PROJECT_REPORT.md`](THESIS_PROJECT_REPORT.md)
 * 📑 **Official Formatted PDF:** [`THESIS_PROJECT_REPORT.pdf`](THESIS_PROJECT_REPORT.pdf) *(Print-ready 32-page formal university submission with official GHRU emblem, DFD schematics, and live system UI telemetry)*
 
 ---
