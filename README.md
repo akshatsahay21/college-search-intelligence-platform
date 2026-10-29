@@ -492,8 +492,9 @@ This platform is engineered as the **Final-Year Major Project (B.Tech CSE 2025�
 
 This repository forms the complete technical submission for the **Bachelor of Technology (BTech) in Computer Science & Engineering** at **G H Raisoni University Saikheda (Academic Year 2025–2026)**.
 
-For the exhaustive 50-page formal academic report—including comprehensive literature reviews, mathematical proofs of BM25 term saturation, DFD Level 0/1/2 diagrams, empirical IR benchmarking (NDCG@10 = 0.924), and 25+ academic citations—please review:
-👉 **[`THESIS_PROJECT_REPORT.md`](THESIS_PROJECT_REPORT.md)**
+For the exhaustive formal academic report—including comprehensive literature reviews, mathematical proofs of BM25 term saturation, DFD Level 0/1/2 diagrams, empirical IR benchmarking (NDCG@10 = 0.924), and 25+ academic citations—please review:
+* 📄 **Markdown Source:** [`THESIS_PROJECT_REPORT.md`](THESIS_PROJECT_REPORT.md)
+* 📑 **Official Formatted PDF:** [`THESIS_PROJECT_REPORT.pdf`](THESIS_PROJECT_REPORT.pdf) *(Print-ready 32-page formal university submission with official GHRU emblem, DFD schematics, and live system UI telemetry)*
 
 ---
 
