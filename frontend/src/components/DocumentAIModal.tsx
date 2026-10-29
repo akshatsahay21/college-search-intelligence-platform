@@ -12,6 +12,7 @@ import {
   FileText,
   HelpCircle,
   Bookmark,
+  RotateCw,
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -60,34 +61,25 @@ export default function DocumentAIModal({
     'What are the key takeaways and practical applications?',
   ];
 
-  // Fetch Summary on mount
-  useEffect(() => {
-    let isMounted = true;
-    const fetchSummary = async () => {
-      try {
-        setLoadingSummary(true);
-        setSummaryError(null);
-        const res = await api.get(`/documents/${documentId}/summary`);
-        if (isMounted) {
-          setSummary(res.data.summary);
-        }
-      } catch (err: any) {
-        if (isMounted) {
-          setSummaryError(
-            err.response?.data?.error || 'Failed to generate AI summary. Please try again.'
-          );
-        }
-      } finally {
-        if (isMounted) {
-          setLoadingSummary(false);
-        }
-      }
-    };
+  // Fetch Summary
+  const fetchSummary = async (refresh: boolean = false) => {
+    try {
+      setLoadingSummary(true);
+      setSummaryError(null);
+      const url = refresh ? `/documents/${documentId}/summary?refresh=true` : `/documents/${documentId}/summary`;
+      const res = await api.get(url);
+      setSummary(res.data.summary);
+    } catch (err: any) {
+      setSummaryError(
+        err.response?.data?.error || 'Failed to generate AI summary. Please try again.'
+      );
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
 
+  useEffect(() => {
     fetchSummary();
-    return () => {
-      isMounted = false;
-    };
   }, [documentId]);
 
   // Scroll to bottom of chat
@@ -314,20 +306,31 @@ export default function DocumentAIModal({
                       <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                       Generated strictly from faculty lecture notes • Verified context
                     </span>
-                    <button
-                      onClick={handleCopySummary}
-                      className="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied!
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" /> Copy Study Guide
-                        </>
-                      )}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => fetchSummary(true)}
+                        disabled={loadingSummary}
+                        title="Re-synthesize deep multi-page study guide using AI"
+                        className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer disabled:opacity-50"
+                      >
+                        <RotateCw className={`w-3.5 h-3.5 ${loadingSummary ? 'animate-spin' : ''}`} />
+                        <span>Regenerate Deep Guide</span>
+                      </button>
+                      <button
+                        onClick={handleCopySummary}
+                        className="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied!
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" /> Copy Study Guide
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
 
                   {/* Summary Content Card */}

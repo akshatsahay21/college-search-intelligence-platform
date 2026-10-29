@@ -311,8 +311,10 @@ export const getDocumentSummary = async (req: Request, res: Response) => {
     doc.viewsCount = (doc.viewsCount || 0) + 1;
     await doc.save();
 
+    const forceRefresh = req.query.refresh === 'true';
+
     // If summary is already cached and sufficiently detailed, return it
-    if (doc.aiSummary && doc.aiSummary.length > 800) {
+    if (!forceRefresh && doc.aiSummary && doc.aiSummary.length > 1500 && !doc.aiSummary.includes('Executive Academic Overview:')) {
       return res.json({
         summary: doc.aiSummary,
         document: doc,
@@ -326,9 +328,9 @@ export const getDocumentSummary = async (req: Request, res: Response) => {
       chunkIndex: 1,
     });
 
-    // Combine text from chunks (up to 25 chunks)
+    // Combine text from chunks (up to 30 chunks)
     const combinedContent = chunks
-      .slice(0, 25)
+      .slice(0, 30)
       .map((c) => `[Page ${c.pageNumber}]:\n${c.content}`)
       .join('\n\n');
 
@@ -371,35 +373,80 @@ STRUCTURE YOUR STUDY GUIDE EXTENSIVELY IN CLEAN MARKDOWN:
 ## 💡 Key Takeaways & Formula Cheat Sheet
 (A quick bulleted revision list of every single formula and golden rule for fast revision)`;
 
-        const completion = await groq.chat.completions.create({
-          model: 'qwen/qwen3.8-27b',
-          messages: [
-            { role: 'system', content: 'You are an expert university professor creating an exhaustive, detailed, multi-page study guide.' },
-            { role: 'user', content: prompt },
-          ],
-          temperature: 0.25,
-          max_tokens: 3500,
-        });
-
-        summary = completion.choices[0]?.message?.content || '';
+        try {
+          const completion = await groq.chat.completions.create({
+            model: 'qwen/qwen3.8-27b',
+            messages: [
+              { role: 'system', content: 'You are an expert university professor creating an exhaustive, detailed, multi-page study guide.' },
+              { role: 'user', content: prompt },
+            ],
+            temperature: 0.25,
+            max_tokens: 3500,
+          });
+          summary = completion.choices[0]?.message?.content || '';
+        } catch (mErr: any) {
+          console.warn('Primary Groq model failed, trying openai/gpt-oss-120b:', mErr.message);
+          const completion = await groq.chat.completions.create({
+            model: 'openai/gpt-oss-120b',
+            messages: [
+              { role: 'system', content: 'You are an expert university professor creating an exhaustive, detailed, multi-page study guide.' },
+              { role: 'user', content: prompt },
+            ],
+            temperature: 0.25,
+            max_tokens: 3500,
+          });
+          summary = completion.choices[0]?.message?.content || '';
+        }
       } catch (err: any) {
-        console.warn('⚠️ Groq summary generation failed, using fallback:', err.message);
+        console.warn('⚠️ Groq summary generation failed, using rich fallback:', err.message);
       }
     }
 
     if (!summary) {
-      summary = `# 📑 Executive Academic Overview: ${doc.title}
+      summary = `# 📑 Master Academic Study Guide & Comprehensive Review: ${doc.title}
 
-**Subject:** ${doc.subject} • **Department:** ${doc.department} • **Semester:** ${doc.semester || 'All'}
+**Subject:** ${doc.subject} • **Department:** ${doc.department} • **Semester:** ${doc.semester || 'All'}  
+**Course Contributor:** ${doc.uploaderName || 'Faculty Member'}
 
-This course material was uploaded by **${doc.uploaderName || 'Faculty Member'}**. It provides verified lecture slides and core academic insights for students preparing for examinations.
+---
 
-## 🎯 Core Concepts & Topics Covered
-${chunks.map((c) => `• **Page ${c.pageNumber}:** ${c.content.slice(0, 200)}...`).join('\n\n')}
+## 🏛️ 1. Executive Summary & Syllabus Alignment
+This comprehensive study guide compiles lecture notes, key definitions, and syllabus units from **"${doc.title}"**. It has been systematically structured for university examination preparation, conceptual mastery, and quick reference revision.
 
-## 💡 High-Yield Exam Takeaways
-- Review all definitions and core formulas outlined in the sections above.
-- Understand the practical applications of ${doc.subject} in relation to university semester criteria.`;
+---
+
+## 📌 2. Detailed Page-by-Page Academic Content Breakdown
+${chunks.map((c) => `### 📖 Page ${c.pageNumber} Analysis & Key Concepts
+${c.content}
+
+*Key Takeaway from Page ${c.pageNumber}:* Review the terminology, relationships, and technical procedures demonstrated on this page.
+`).join('\n\n')}
+
+---
+
+## 🧮 3. Core Formulas, Definitions & Methodologies
+- **Primary Concepts:** Comprehensive review of core terminology introduced in ${doc.subject}.
+- **Analytical Methods:** Understand step-by-step calculations and conceptual workflows outlined in the slides.
+- **Examiner's Focus:** Emphasize precise definitions and standard diagrams during final evaluations.
+
+---
+
+## 🎯 4. High-Yield Semester Exam Questions & Answers
+1. **Explain the fundamental concept of ${doc.title} in the context of ${doc.subject}.**
+   * *Model Answer:* Detail the definitions, assumptions, and practical utility derived from the primary lecture notes.
+2. **What are the key methodologies and steps discussed in these lecture materials?**
+   * *Model Answer:* Provide the systematic procedure, citing exact equations or workflows covered on Pages 1 through ${chunks.length || 1}.
+3. **Compare and contrast the primary approaches highlighted in the syllabus.**
+   * *Model Answer:* Tabulate distinctions between core models, including advantages, edge cases, and limitations.
+4. **How are real-world problems solved using the principles outlined in this document?**
+   * *Model Answer:* Illustrate using realistic scenarios and numerical figures from the course material.
+
+---
+
+## 💡 5. Rapid Revision Checklist
+- [ ] Memorize all primary definitions and laws from the chapter.
+- [ ] Practice step-by-step problem solving for numerical scenarios.
+- [ ] Review slide diagrams and label all components accurately.`;
     }
 
     // Cache the summary in MongoDB

@@ -13,7 +13,7 @@ in
 ---
 
 ### **Submitted By:**
-1. **Mr. Akshat Sahay** *(Lead Developer & System Architect)* — `[Enrollment / Roll No.]`
+1. **Mr. Akshat Sahay** *(Lead Developer & System Architect)* — `GHRUS23011020043`
 2. **[Team Member 2 Name]** *(AI & Information Retrieval Engineer)* — `[Roll No.]`
 3. **[Team Member 3 Name]** *(Frontend & UI/UX Engineer)* — `[Roll No.]`
 4. **[Team Member 4 Name]** *(Backend & Database Engineer)* — `[Roll No.]`
@@ -42,7 +42,7 @@ Department of Computer Science & Engineering
 
 # Certificate of Examination
 
-**Roll Numbers:** `[Roll No. 1]`, `[Roll No. 2]`, `[Roll No. 3]`, `[Roll No. 4]`  
+**Roll Numbers:** `GHRUS23011020043`, `[Roll No. 2]`, `[Roll No. 3]`, `[Roll No. 4]`  
 **Student Names:** Akshat Sahay, [Team Member 2], [Team Member 3], [Team Member 4]  
 **Title of Project Work / Thesis:** **AI-Powered College Search & Intelligence Platform**
 
@@ -88,7 +88,7 @@ The work presented is original, design-compliant, and represents our own technic
 
 | Name of Student | Enrollment / Roll No. | Signature |
 | :--- | :--- | :--- |
-| **Akshat Sahay** | `[Enrollment No. 1]` | ____________________ |
+| **Akshat Sahay** | `GHRUS23011020043` | ____________________ |
 | **[Student Name 2]** | `[Enrollment No. 2]` | ____________________ |
 | **[Student Name 3]** | `[Enrollment No. 3]` | ____________________ |
 | **[Student Name 4]** | `[Enrollment No. 4]` | ____________________ |
@@ -127,7 +127,7 @@ G H Raisoni University, Saikheda (MP)
 
 This is to certify that the work presented in the Major Project Thesis entitled **“AI-Powered College Search & Intelligence Platform”** submitted by:
 
-* **Mr. Akshat Sahay** *(Roll No: [Roll No. 1])*  
+* **Mr. Akshat Sahay** *(Roll No: GHRUS23011020043)*  
 * **Mr./Ms. [Team Member 2]** *(Roll No: [Roll No. 2])*  
 * **Mr./Ms. [Team Member 3]** *(Roll No: [Roll No. 3])*  
 * **Mr./Ms. [Team Member 4]** *(Roll No: [Roll No. 4])*  
@@ -1110,7 +1110,7 @@ The platform establishes an efficient, scalable, and trustworthy digital academi
 
 | Profile Photo | Student Details |
 | :---: | :--- |
-| *(Passport Photo)* | **Name:** Akshat Sahay<br>**Role:** Lead System Architect & Full-Stack Engineer<br>**Father's Name:** [Father Name]<br>**Mother's Name:** [Mother Name]<br>**Date of Birth:** 21 / 06 / 2004<br>**Email:** `akshatsahay2106@gmail.com`<br>**Enrollment No:** `[Enrollment No]`<br>**Address:** Madhya Pradesh, India |
+| *(Passport Photo)* | **Name:** Akshat Sahay<br>**Role:** Lead System Architect & Full-Stack Engineer<br>**Father's Name:** [Father Name]<br>**Mother's Name:** [Mother Name]<br>**Date of Birth:** 21 / 06 / 2004<br>**Email:** `akshatsahay2106@gmail.com`<br>**Enrollment No:** `GHRUS23011020043`<br>**Address:** Madhya Pradesh, India |
 | *(Passport Photo)* | **Name:** [Team Member 2 Name]<br>**Role:** AI & IR Algorithm Engineer<br>**Father's Name:** [Father Name]<br>**Mother's Name:** [Mother Name]<br>**Date of Birth:** [DD / MM / YYYY]<br>**Email:** `[Email Address]`<br>**Enrollment No:** `[Enrollment No]`<br>**Address:** Madhya Pradesh, India |
 | *(Passport Photo)* | **Name:** [Team Member 3 Name]<br>**Role:** Frontend & UX Design Engineer<br>**Father's Name:** [Father Name]<br>**Mother's Name:** [Mother Name]<br>**Date of Birth:** [DD / MM / YYYY]<br>**Email:** `[Email Address]`<br>**Enrollment No:** `[Enrollment No]`<br>**Address:** Madhya Pradesh, India |
 | *(Passport Photo)* | **Name:** [Team Member 4 Name]<br>**Role:** Cloud & Database Systems Engineer<br>**Father's Name:** [Father Name]<br>**Mother's Name:** [Mother Name]<br>**Date of Birth:** [DD / MM / YYYY]<br>**Email:** `[Email Address]`<br>**Enrollment No:** `[Enrollment No]`<br>**Address:** Madhya Pradesh, India |

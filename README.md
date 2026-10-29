@@ -32,6 +32,7 @@
 * [🛠️ Technology Stack](#️-technology-stack)
 * [💻 Setup & Installation Guide](#-setup--installation-guide)
 * [📂 Project Directory Structure](#-project-directory-structure)
+* [👥 Project Team & Contributors](#-project-team--contributors)
 * [📖 Academic Thesis & Publications](#-academic-thesis--publications)
 
 ---
@@ -469,6 +470,21 @@ college-search-intelligence-platform/
         └── core/
             └── processor.py       # Sentence-transformers vector embeddings
 ```
+
+---
+
+## 👥 Project Team & Contributors
+
+This platform is engineered as the **Final-Year Major Project (B.Tech CSE 2025–2026)** at **G H Raisoni University Saikheda**, School of Engineering & Technology, Department of Computer Science & Engineering.
+
+| S.No. | Student Name | Enrollment Number | Role & Contribution Area | GitHub Profile |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Akshat Sahay** | `GHRUS23011020043` | **Lead Developer & System Architect** *(Full-Stack Architecture, RAG Pipeline, IR Engine)* | [@akshatsahay21](https://github.com/akshatsahay21) |
+| **2** | *[Team Member 2 Name]* | `[Enrollment No]` | *[AI & Information Retrieval / Core Search Engine]* | *[@username]* |
+| **3** | *[Team Member 3 Name]* | `[Enrollment No]` | *[Frontend UI/UX & Component Architecture]* | *[@username]* |
+| **4** | *[Team Member 4 Name]* | `[Enrollment No]` | *[Backend Routing & Database Systems]* | *[@username]* |
+
+> **Supervisor / Project Guide:** **Dr. Rahul Khokale**, Department of Computer Science & Engineering, G H Raisoni University Saikheda.
 
 ---
 
